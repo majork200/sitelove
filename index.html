@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para o Meu Amor</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Estilos específicos para a página do coração */
+        body.pagina-coracao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #fce4ec; /* Fundo rosa claro, pode ser o mesmo do seu CSS geral */
+            overflow: hidden; /* Para evitar scroll */
+        }
+
+        .container-coracao {
+            text-align: center;
+            position: relative;
+        }
+
+        .coracao-link {
+            display: inline-block; /* Para que o link se comporte como um bloco e aplique o tamanho */
+            width: 150px; /* Tamanho do coração */
+            height: 135px; /* Altura ajustada para o formato do coração */
+            background-color: #e91e63; /* Cor do coração */
+            position: relative;
+            transform: rotate(-45deg);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra para profundidade */
+            animation: pulsar 1.5s infinite alternate ease-in-out; /* Animação de pulsar */
+        }
+
+        .coracao-link:hover {
+            transform: scale(1.1) rotate(-45deg); /* Aumenta um pouco ao passar o mouse */
+            background-color: #c2185b; /* Cor mais escura no hover */
+        }
+
+        .coracao-link::before,
+        .coracao-link::after {
+            content: "";
+            width: 150px; /* Mesmo tamanho */
+            height: 135px; /* Mesma altura */
+            background-color: #e91e63; /* Mesma cor */
+            border-radius: 50%; /* Faz as "bolinhas" do coração */
+            position: absolute;
+        }
+
+        .coracao-link::before {
+            top: -75px; /* Posição da bolinha de cima */
+            left: 0;
+        }
+
+        .coracao-link::after {
+            left: 75px; /* Posição da bolinha da direita */
+            top: 0;
+        }
+
+        .coracao-link:hover::before,
+        .coracao-link:hover::after {
+            background-color: #c2185b; /* Cores mais escuras no hover */
+        }
+
+        .texto-convite {
+            margin-top: 80px; /* Espaço para não sobrepor o coração */
+            font-size: 1.5em;
+            color: #4a148c;
+            font-weight: bold;
+            opacity: 0; /* Esconde inicialmente */
+            animation: fadeInText 2s forwards 1.5s; /* Aparece depois de 1.5s */
+        }
+
+        /* Animação para o coração pulsar */
+        @keyframes pulsar {
+            0% { transform: scale(1) rotate(-45deg); }
+            100% { transform: scale(1.05) rotate(-45deg); }
+        }
+
+        /* Animação para o texto aparecer */
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body class="pagina-coracao">
+
+    <div class="container-coracao">
+        <a href="quiz.html" class="coracao-link"></a>
+        <p class="texto-convite">Clique no coração para revelar uma surpresa!</p>
+    </div>
+
+</body>
+</html>

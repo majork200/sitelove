@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Cartinha de Amor para Você</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página da carta, se necessário */
+        /* Podem ser adicionados aqui ou no style.css geral */
+
+        .carta-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            line-height: 1.8; /* Espaçamento entre linhas para melhor leitura */
+            text-align: left;
+            color: #333; /* Cor do texto mais escura para a carta */
+        }
+
+        .carta-container h1 {
+            color: #e91e63; /* Cor vibrante para o título */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            letter-spacing: 1px;
+        }
+
+        .carta-container p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            text-indent: 30px; /* Recuo na primeira linha dos parágrafos */
+        }
+
+        .secao-fotos {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .secao-fotos h2 {
+            color: #4a148c; /* Cor roxa para o subtítulo das fotos */
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .galeria-fotos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Layout responsivo de fotos */
+            gap: 20px; /* Espaçamento entre as fotos */
+            margin-top: 30px;
+        }
+
+        .foto-item {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .foto-item:hover {
+            transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+        }
+
+        .foto-item img {
+            width: 100%;
+            height: 200px; /* Altura fixa para as imagens */
+            object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+            display: block; /* Remove espaçamento extra abaixo da imagem */
+        }
+
+        .foto-item p {
+            font-size: 0.9em;
+            color: #666;
+            padding: 10px;
+            margin: 0;
+            text-indent: 0; /* Remove recuo dos parágrafos da legenda */
+        }
+
+        .assinatura {
+            text-align: right;
+            margin-top: 50px;
+            font-style: italic;
+            font-size: 1.2em;
+            color: #e91e63;
+        }
+        
+        .botao-pagina3 {
+            display: block;
+            width: fit-content;
+            margin: 50px auto 20px auto;
+            background-color: #880e4f; /* Um tom de rosa mais escuro */
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        .botao-pagina3:hover {
+            background-color: #5d002a;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="carta-container">
+        <h1>Para o meu amor, [Nome do Amor] ❤️</h1>
+
+        <p>
+            Meu bem, desde o primeiro momento em que nossos caminhos se cruzaram, soube que algo mágico estava acontecendo. Cada dia ao seu lado é um presente, uma nova aventura, e uma confirmação do quanto somos feitos um para o outro. Sua risada é a melodia mais linda, seu abraço é meu refúgio, e seu olhar é a minha estrela guia.
+        </p>
+
+        <p>
+            Lembro-me perfeitamente daquele dia [mencione um momento especial, ex: "do nosso primeiro encontro no parque"], foi ali que percebi que minha vida nunca mais seria a mesma. Você me inspira, me desafia a ser uma pessoa melhor, e me faz sentir uma alegria que nunca imaginei ser possível.
+        </p>
+        
+        <p>
+            Cada obstáculo que superamos juntos apenas fortalece nosso laço, e cada momento de felicidade se torna uma memória preciosa que guardo com carinho no coração. Mal posso esperar para criar muitas outras histórias e desvendar cada um dos nossos futuros juntos.
+        </p>
+
+        <p>
+            Espero que esta pequena cartinha consiga transmitir um pouquinho do imenso carinho e amor que sinto por você.
+        </p>
+
+        <div class="secao-fotos">
+            <h2>Alguns dos Nossos Melhores Momentos:</h2>
+            <div class="galeria-fotos">
+                <div class="foto-item">
+                    <img src="caminho/para/sua/foto1.jpg" alt="Descrição da Foto 1">
+                    <p>Nosso primeiro encontro, o início de tudo!</p>
+                </div>
+
+                <div class="foto-item">
+                    <img src="caminho/para/sua/foto2.jpg" alt="Descrição da Foto 2">
+                    <p>Aquela viagem inesquecível para [Nome do Lugar]!</p>
+                </div>
+
+                <div class="foto-item">
+                    <img src="caminho/para/sua/foto3.jpg" alt="Descrição da Foto 3">
+                    <p>Um momento divertido que amamos relembrar!</p>
+                </div>
+
+                <div class="foto-item">
+                    <img src="caminho/para/sua/foto4.jpg" alt="Descrição da Foto 4">
+                    <p>Mais um momento especial!</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="assinatura">Com todo o meu amor,<br>[Seu Nome]</p>
+        
+        <a href="pagina3.html" class="botao-pagina3">Clique para a Próxima Surpresa!</a>
+
+    </div>
+
+</body>
+</html>

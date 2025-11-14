@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz do Nosso Amor</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header>
+        <h1>Teste de Conexão (Quiz)</h1>
+        <p>Responda as perguntas abaixo para desbloquear a cartinha secreta!</p>
+    </header>
+
+    <main id="quiz-container">
+        
+        <section class="pergunta">
+            <h2>1. qual foi o primeiro filme que vimos juntos?</h2>
+            <div class="opcoes">
+                <label>
+                    <input type="radio" name="pergunta1" value="A"> A Opção Certa
+                </label>
+                <label>
+                    <input type="radio" name="pergunta1" value="B"> invencivel
+                </label>
+                <label>
+                    <input type="radio" name="pergunta1" value="C"> game of thrones
+                </label>
+            </div>
+        </section>
+
+        <section class="pergunta">
+            <h2>2. Qual foi a data do nosso primeiro encontro?</h2>
+            <div class="opcoes">
+                <label>
+                    <input type="radio" name="pergunta2" value="A"> A Data Certa
+                </label>
+                <label>
+                    <input type="radio" name="pergunta2" value="B"> A Data Errada
+                </label>
+                <label>
+                    <input type="radio" name="pergunta2" value="C"> Nem Perto
+                </label>
+            </div>
+        </section>
+        
+        <button id="finalizar-quiz">Verificar Respostas e Desbloquear</button>
+
+        <p id="mensagem-resultado" style="display: none; color: red; margin-top: 20px;"></p>
+
+    </main>
+
+    <footer>
+        <p>Feito com amor por [Jhonathan]</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz do Nosso Amor</title>
+    <!-- O estilo deve estar em style.css -->
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
@@ -15,11 +16,12 @@
 
     <main id="quiz-container">
         
+        <!-- Pergunta 1: Filme -->
         <section class="pergunta">
-            <h2>1. qual foi o primeiro filme que vimos juntos?</h2>
+            <h2>1. Qual foi o primeiro filme que vimos juntos?</h2>
             <div class="opcoes">
                 <label>
-                    <input type="radio" name="pergunta1" value="A"> A Opção Certa
+                    <input type="radio" name="pergunta1" value="A"> nausicaa do vale do vento
                 </label>
                 <label>
                     <input type="radio" name="pergunta1" value="B"> invencivel
@@ -30,31 +32,65 @@
             </div>
         </section>
 
+        <!-- Pergunta 2: Data de Namoro -->
         <section class="pergunta">
-            <h2>2. Qual foi a data do nosso primeiro encontro?</h2>
+            <h2>2. Qual foi o dia que começamos a namorar?</h2>
             <div class="opcoes">
                 <label>
-                    <input type="radio" name="pergunta2" value="A"> A Data Certa
+                    <input type="radio" name="pergunta2" value="A"> 15/11
                 </label>
                 <label>
-                    <input type="radio" name="pergunta2" value="B"> A Data Errada
+                    <input type="radio" name="pergunta2" value="B"> 12/11
                 </label>
                 <label>
-                    <input type="radio" name="pergunta2" value="C"> Nem Perto
+                    <input type="radio" name="pergunta2" value="C"> 17/01
+                </label>
+            </div>
+        </section>
+
+        <!-- Pergunta 3: Música. CORRIGIDO: name="pergunta3" -->
+        <section class="pergunta">
+            <h2>3. Qual é a nossa música?</h2>
+            <div class="opcoes">
+                <label>
+                    <input type="radio" name="pergunta3" value="B"> alecrim dourado
+                </label>
+                <label>
+                    <input type="radio" name="pergunta3" value="C"> in the end - rocklee vs gara 
+                </label>
+                <label>
+                    <input type="radio" name="pergunta3" value="A"> APT
+                </label>
+            </div>
+        </section>
+
+        <!-- Pergunta 4: Presente. CORRIGIDO: name="pergunta4" -->
+        <section class="pergunta">
+            <h2>4. Qual foi o primeiro presente que te dei?</h2>
+            <div class="opcoes">
+                <label>
+                    <input type="radio" name="pergunta4" value="B"> hamburguer
+                </label>
+                <label>
+                    <input type="radio" name="pergunta4" value="A"> anel de gatinho
+                </label>
+                <label>
+                    <input type="radio" name="pergunta4" value="C"> sushi 
                 </label>
             </div>
         </section>
         
-        <button id="finalizar-quiz">Verificar Respostas e Desbloquear</button>
+        <button id="finalizar-quiz">Concluir</button>
 
         <p id="mensagem-resultado" style="display: none; color: red; margin-top: 20px;"></p>
 
     </main>
 
     <footer>
-        <p>Feito com amor por [Jhonathan]</p>
+        <p>Feito por majorzin</p>
     </footer>
 
+    <!-- Script para a lógica do quiz -->
     <script src="script.js"></script>
 
 </body>

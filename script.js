@@ -2,7 +2,9 @@ document.getElementById('finalizar-quiz').addEventListener('click', function() {
     // 1. Defina as respostas corretas (ajuste estas letras para as suas respostas!)
     const respostasCorretas = {
         pergunta1: 'A', // Resposta correta para a pergunta 1
-        pergunta2: 'A'  // Resposta correta para a pergunta 2
+        pergunta2: 'A', // Resposta correta para a pergunta 2
+        pergunta3: 'A',
+        pergunta4: 'A',
         // Adicione aqui as chaves para todas as suas perguntas
     };
 

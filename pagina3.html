@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris do Nosso Amor</title>
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --cor-fundo-jogo: #1a1a2e; /* Azul Escuro do Espaço */
+            --cor-borda: #8d8d8d;
+            --cor-texto: #ffffff;
+            --cor-acao: #ff6f61; /* Coral vibrante para botões */
+            --cor-destaque: #fdd835; /* Amarelo para destaque */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #e91e63 0%, #4a148c 100%); /* Fundo degradê de amor */
+        }
+
+        .game-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background-color: #3e2069;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+            flex-wrap: wrap; /* Adaptativo para telas menores */
+            justify-content: center;
+            width: 95%;
+            max-width: 900px;
+        }
+
+        h1 {
+            color: var(--cor-destaque);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+
+        /* Área de informações laterais */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            min-width: 150px;
+            padding: 10px;
+        }
+        
+        /* Controles do jogo */
+        #gameCanvas {
+            border: 5px solid var(--cor-borda);
+            background-color: var(--cor-fundo-jogo);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .score-box, .next-box {
+            background-color: #5d3587;
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .score-box p, .next-box p {
+            margin: 5px 0 0 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--cor-destaque);
+        }
+        
+        .score-box span, .next-box span {
+            font-size: 0.9rem;
+            color: #ddd;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Área da próxima peça */
+        #nextCanvas {
+            border: 2px dashed #ff91b2;
+            background-color: #4a2973;
+            border-radius: 5px;
+        }
+
+        /* Mensagens de Amor (Overlay) */
+        #love-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff4081; /* Pink vibrante */
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 64, 129, 0.8);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Não interfere nos cliques */
+        }
+        
+        /* Estilos dos botões */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background-color: var(--cor-acao);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px #e54b42;
+            transition: all 0.1s;
+            min-width: 100px;
+        }
+
+        button:active {
+            box-shadow: 0 2px #e54b42;
+            transform: translateY(2px);
+        }
+
+        #mobile-controls {
+            display: none;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #mobile-controls button {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Media Queries para responsividade */
+        @media (max-width: 600px) {
+            .game-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+
+            .info-panel {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                order: -1; /* Move para o topo em mobile */
+            }
+
+            .score-box, .next-box {
+                width: 45%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .controls {
+                display: none; /* Esconde botões de teclado em mobile */
+            }
+
+            #mobile-controls {
+                display: flex;
+            }
+            
+            #love-message {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Nosso Tetris do Amor!</h1>
+
+    <div class="game-container">
+        
+        <div class="info-panel">
+            <div class="score-box">
+                <span>Pontuação</span>
+                <p id="score">0</p>
+            </div>
+            
+            <div class="next-box">
+                <span>Próxima</span>
+                <canvas id="nextCanvas" width="80" height="80"></canvas>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" width="200" height="400"></canvas>
+        
+        <div class="controls">
+            <button onclick="startGame()">Iniciar Jogo</button>
+            <button onclick="pauseGame()">Pausar</button>
+        </div>
+
+    </div>
+
+    <!-- Controles mobile -->
+    <div id="mobile-controls">
+        <button onclick="movePieceWrapper('left')">◀</button>
+        <button onclick="rotatePieceWrapper()">⬆</button>
+        <button onclick="movePieceWrapper('right')">▶</button>
+        <button onclick="dropPieceWrapper()">⬇</button>
+    </div>
+
+    <!-- Modal de Mensagem de Amor -->
+    <div id="love-message">Você é meu sonho!</div>
+    
+    <script>
+        // --- CONFIGURAÇÃO DO JOGO ---
+        const CANVAS = document.getElementById('gameCanvas');
+        const CTX = CANVAS.getContext('2d');
+        const NEXT_CANVAS = document.getElementById('nextCanvas');
+        const NEXT_CTX = NEXT_CANVAS.getContext('2d');
+        const SCORE_ELEM = document.getElementById('score');
+        const MSG_ELEM = document.getElementById('love-message');
+        
+        const BLOCK_SIZE = 20;
+        const COLUMNS = 10;
+        const ROWS = 20;
+
+        CANVAS.width = COLUMNS * BLOCK_SIZE;
+        CANVAS.height = ROWS * BLOCK_SIZE;
+
+        let board = Array(ROWS).fill(0).map(() => Array(COLUMNS).fill(0));
+        let score = 0;
+        let lastTime = 0;
+        let dropCounter = 0;
+        let dropInterval = 1000; // milissegundos
+        let animationFrameId;
+        let isPaused = true;
+        let nextPiece;
+
+        // --- MENSAGENS DE AMOR (FÁCIL DE EDITAR) ---
+        const loveMessages = [
+            "Você é meu presente!",
+            "Te amo mais que chocolate!",
+            "Minha pessoa favorita!",
+            "Você me faz feliz!",
+            "Nosso amor é invencível!",
+            "Eu adoro seu sorriso!",
+            "Melhor pessoa do mundo!",
+            "Meu coração é seu!",
+            "Obrigado por existir!",
+            "Sempre ao seu lado!",
+            "Você me completa!",
+            "Sou louco(a) por você!",
+            "Meu porto seguro!",
+            "Juntos para sempre!"
+        ];
+
+        // --- DEFINIÇÃO DAS PEÇAS (TETROMINÓS) ---
+        const PIECES = [
+            // I (ciano)
+            { shape: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]], color: 'cyan' },
+            // J (azul)
+            { shape: [[2, 0, 0], [2, 2, 2], [0, 0, 0]], color: 'blue' },
+            // L (laranja)
+            { shape: [[0, 0, 3], [3, 3, 3], [0, 0, 0]], color: 'orange' },
+            // O (amarelo)
+            { shape: [[4, 4], [4, 4]], color: 'yellow' },
+            // S (verde)
+            { shape: [[0, 5, 5], [5, 5, 0], [0, 0, 0]], color: 'green' },
+            // T (roxo)
+            { shape: [[0, 6, 0], [6, 6, 6], [0, 0, 0]], color: 'purple' },
+            // Z (vermelho)
+            { shape: [[7, 7, 0], [0, 7, 7], [0, 0, 0]], color: 'red' }
+        ];
+
+        let currentPiece = createNewPiece();
+        nextPiece = createNewPiece();
+
+        // --- FUNÇÕES BÁSICAS DO JOGO ---
+
+        function drawSquare(x, y, color) {
+            CTX.fillStyle = color;
+            CTX.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
+        }
+
+        function drawBoard() {
+            // Desenha o tabuleiro estático
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLUMNS; x++) {
+                    if (board[y][x]) {
+                        drawSquare(x, y, PIECES[board[y][x] - 1].color);
+                    } else {
+                        // Desenha o fundo da célula vazia
+                        CTX.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                        CTX.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    }
+                }
+            }
+
+            // Desenha a peça atual
+            drawPiece(CTX, currentPiece);
+        }
+
+        function drawPiece(context, piece, offsetX = 0, offsetY = 0) {
+            const pieceColor = PIECES[piece.type - 1].color;
+            piece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        context.fillStyle = pieceColor;
+                        context.fillRect(
+                            (piece.x + x + offsetX) * BLOCK_SIZE,
+                            (piece.y + y + offsetY) * BLOCK_SIZE,
+                            BLOCK_SIZE - 1, BLOCK_SIZE - 1
+                        );
+                    }
+                });
+            });
+        }
+        
+        function drawNextPiece() {
+            NEXT_CTX.clearRect(0, 0, NEXT_CANVAS.width, NEXT_CANVAS.height);
+            // Centraliza a peça no mini canvas
+            const piece = nextPiece;
+            const size = piece.shape.length;
+            const xOffset = (NEXT_CANVAS.width / BLOCK_SIZE - size) / 2;
+            const yOffset = (NEXT_CANVAS.height / BLOCK_SIZE - size) / 2;
+
+            drawPiece(NEXT_CTX, { ...piece, x: xOffset, y: yOffset });
+        }
+
+        // --- LÓGICA DO JOGO ---
+
+        function createNewPiece() {
+            const typeId = Math.floor(Math.random() * PIECES.length) + 1;
+            const pieceTemplate = PIECES[typeId - 1];
+            return {
+                type: typeId,
+                shape: pieceTemplate.shape,
+                color: pieceTemplate.color,
+                x: Math.floor(COLUMNS / 2) - Math.floor(pieceTemplate.shape[0].length / 2),
+                y: 0
+            };
+        }
+
+        function collide(piece, board) {
+            const shape = piece.shape;
+            for (let y = 0; y < shape.length; y++) {
+                for (let x = 0; x < shape[y].length; x++) {
+                    if (shape[y][x] !== 0) {
+                        const newX = piece.x + x;
+                        const newY = piece.y + y;
+
+                        // Verifica colisão com bordas ou peças existentes
+                        if (newX < 0 || newX >= COLUMNS || newY >= ROWS ||
+                            (newY >= 0 && board[newY][newX] !== 0)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function merge() {
+            currentPiece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        board[currentPiece.y + y][currentPiece.x + x] = currentPiece.type;
+                    }
+                });
+            });
+        }
+        
+        function rotateMatrix(matrix) {
+            const N = matrix.length - 1;
+            const result = matrix.map((row, i) =>
+                row.map((val, j) => matrix[N - j][i])
+            );
+            return result;
+        }
+
+        function rotatePiece() {
+            const originalShape = currentPiece.shape;
+            currentPiece.shape = rotateMatrix(currentPiece.shape);
+
+            // Evita rotação em parede
+            if (collide(currentPiece, board)) {
+                currentPiece.shape = originalShape; // Volta ao original se colidir
+            }
+        }
+
+        function movePiece(direction) {
+            const newPiece = { ...currentPiece };
+            if (direction === 'left') {
+                newPiece.x--;
+            } else if (direction === 'right') {
+                newPiece.x++;
+            } else if (direction === 'down') {
+                newPiece.y++;
+            }
+
+            if (!collide(newPiece, board)) {
+                currentPiece = newPiece;
+                return true;
+            }
+            return false;
+        }
+        
+        function dropPiece() {
+            while (movePiece('down')); // Move a peça até colidir
+            lockPiece(); // Fixa a peça imediatamente
+        }
+
+
+        function lockPiece() {
+            merge(); // Coloca a peça no tabuleiro
+            checkLines(); // Verifica se há linhas para limpar
+            currentPiece = nextPiece; // Pega a próxima peça
+            nextPiece = createNewPiece(); // Gera uma nova próxima peça
+            drawNextPiece();
+
+            // Game Over
+            if (collide(currentPiece, board)) {
+                cancelAnimationFrame(animationFrameId);
+                MSG_ELEM.textContent = "Game Over! 💔 Mas nosso amor vence!";
+                MSG_ELEM.style.backgroundColor = '#4a148c';
+                MSG_ELEM.style.opacity = 1;
+                isPaused = true;
+            }
+        }
+        
+        function showLoveMessage() {
+            const randomIndex = Math.floor(Math.random() * loveMessages.length);
+            MSG_ELEM.textContent = loveMessages[randomIndex];
+            MSG_ELEM.style.opacity = 1;
+            
+            // Esconde a mensagem depois de 2 segundos
+            setTimeout(() => {
+                MSG_ELEM.style.opacity = 0;
+            }, 2000);
+        }
+
+        function checkLines() {
+            let linesCleared = 0;
+            outer: for (let y = ROWS - 1; y >= 0; y--) {
+                for (let x = 0; x < COLUMNS; x++) {
+                    if (board[y][x] === 0) {
+                        continue outer; // A linha não está completa
+                    }
+                }
+
+                // Linha completa: remove e move as linhas acima para baixo
+                const row = board.splice(y, 1)[0].fill(0); // Remove a linha
+                board.unshift(row); // Adiciona uma nova linha vazia no topo
+                y++; // Verifica a mesma linha novamente
+                linesCleared++;
+            }
+            
+            if (linesCleared > 0) {
+                // Pontuação (simples)
+                score += linesCleared * 10;
+                SCORE_ELEM.textContent = score;
+                showLoveMessage();
+            }
+        }
+
+
+        function gameLoop(time = 0) {
+            if (isPaused) return;
+
+            const deltaTime = time - lastTime;
+            lastTime = time;
+            dropCounter += deltaTime;
+
+            if (dropCounter > dropInterval) {
+                if (!movePiece('down')) {
+                    lockPiece();
+                }
+                dropCounter = 0;
+            }
+
+            CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
+            drawBoard();
+
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // --- CONTROLES DE INTERFACE ---
+        
+        function startGame() {
+            if (!isPaused) return; // Já está rodando
+
+            // Reseta o jogo
+            board = Array(ROWS).fill(0).map(() => Array(COLUMNS).fill(0));
+            score = 0;
+            SCORE_ELEM.textContent = 0;
+            currentPiece = createNewPiece();
+            nextPiece = createNewPiece();
+            drawNextPiece();
+            MSG_ELEM.style.opacity = 0;
+            MSG_ELEM.style.backgroundColor = '#ff4081';
+
+            isPaused = false;
+            gameLoop();
+        }
+
+        function pauseGame() {
+            if (isPaused) {
+                isPaused = false;
+                gameLoop();
+            } else {
+                isPaused = true;
+                cancelAnimationFrame(animationFrameId);
+                MSG_ELEM.textContent = "Jogo Pausado. Sentindo sua falta!";
+                MSG_ELEM.style.backgroundColor = '#1a1a2e';
+                MSG_ELEM.style.opacity = 1;
+            }
+        }
+        
+        // Função Wrapper para rotação (usada pelos botões mobile)
+        function rotatePieceWrapper() {
+            if (!isPaused) rotatePiece();
+        }
+
+        // Função Wrapper para movimento (usada pelos botões mobile)
+        function movePieceWrapper(dir) {
+             if (!isPaused) movePiece(dir);
+        }
+
+        // Função Wrapper para queda rápida (usada pelos botões mobile)
+        function dropPieceWrapper() {
+            if (!isPaused) dropPiece();
+        }
+
+
+        // --- CONTROLES DE TECLADO ---
+        document.addEventListener('keydown', event => {
+            if (isPaused) return;
+            switch (event.key) {
+                case 'ArrowLeft':
+                    movePiece('left');
+                    break;
+                case 'ArrowRight':
+                    movePiece('right');
+                    break;
+                case 'ArrowDown':
+                    movePiece('down');
+                    break;
+                case 'ArrowUp':
+                    rotatePiece();
+                    break;
+                case ' ': // Barra de espaço para queda rápida
+                    dropPiece();
+                    break;
+                case 'p':
+                case 'P':
+                    pauseGame();
+                    break;
+            }
+        });
+
+        // Exposição das funções para os botões do HTML
+        window.startGame = startGame;
+        window.pauseGame = pauseGame;
+        
+        // Linhas de exposição de funções corrigidas:
+        window.rotatePieceWrapper = rotatePieceWrapper; // Chamada correta para o wrapper
+        window.movePieceWrapper = movePieceWrapper;     // Chamada correta para o wrapper
+        window.dropPieceWrapper = dropPieceWrapper;     // Chamada correta para o wrapper
+        
+        // A função dropPieceWrapper já garante que o jogo não está pausado.
+        // As chamadas originais no HTML dos botões mobile foram ajustadas para usar os wrappers.
+        
+        // Linhas originais que estavam causando confusão no stack (REMOVIDAS/CORRIGIDAS):
+        // window.rotatePiece = rotatePieceWrapper;
+        // window.movePiece = (dir) => { if(!isPaused) movePiece(dir); }; // Esta era a linha 585 que a imagem mostrava
+        // window.dropPiece = () => { if(!isPaused) dropPiece(); };
+
+        // Desenha a peça inicial e pausa o jogo ao carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            drawBoard();
+            drawNextPiece();
+            MSG_ELEM.textContent = "Aperte 'Iniciar' para começar!";
+            MSG_ELEM.style.backgroundColor = '#1a1a2e';
+            MSG_ELEM.style.opacity = 1;
+        });
+
+    </script>
+</body>
+</html>
